@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import os
 from werkzeug.utils import secure_filename
-from pyresparser import ResumeParser
 
 app = Flask(__name__)
 
@@ -26,9 +25,21 @@ def upload_cv():
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     file.save(filepath)
 
-    data = ResumeParser(filepath).get_extracted_data()
+    file.save(filepath)
 
-    return jsonify(data)
+    return jsonify({
+    "status": "uploaded",
+    "filename": filename
+    })
+
+
+
+@app.route('/test')
+def test():
+    return jsonify({
+    "status": "uploaded",
+    "filename": filename
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
